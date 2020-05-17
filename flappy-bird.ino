@@ -1,5 +1,6 @@
 #include"TFT_eSPI.h"
 TFT_eSPI tft;
+TFT_eSprite spr = TFT_eSprite(&tft);
 
 float time = 0;
 const float delta_t = 0.3;
@@ -37,8 +38,8 @@ const int height = 240;
 void setup() {
     tft.begin();
     tft.setRotation(3);
- 
     tft.fillScreen(TFT_WHITE); // fills entire the screen with colour red
+    spr.createSprite(TFT_HEIGHT,TFT_WIDTH);
 
     pinMode(WIO_KEY_A, INPUT_PULLUP);
     pinMode(WIO_KEY_B, INPUT_PULLUP);
@@ -60,15 +61,15 @@ void reset(){
 
 
 void opening(){
-  tft.fillScreen(TFT_WHITE);
-  tft.setTextColor(TFT_BLACK,TFT_WHITE);
-  tft.drawString("Please Click! Click! Click!", width/2 - 80, height/2);
+  spr.fillSprite(TFT_WHITE);
+  spr.setTextColor(TFT_BLACK,TFT_WHITE);
+  spr.drawString("Please Click! Click! Click!", width/2 - 80, height/2);
 }
 
 void ending(){
-  tft.fillScreen(TFT_WHITE);
-  tft.setTextColor(TFT_BLACK,TFT_WHITE);
-  tft.drawString("Game Over", width/2 - 20, height/2);
+  spr.fillSprite(TFT_WHITE);
+  spr.setTextColor(TFT_BLACK,TFT_WHITE);
+  spr.drawString("Game Over", width/2 - 20, height/2);
 }
 
 
@@ -93,11 +94,11 @@ void game(){
   }
 
   // draw objects
-  tft.fillScreen(TFT_WHITE);
-  tft.drawCircle(x, y, 10, TFT_BLACK);
+  spr.fillSprite(TFT_WHITE);
+  spr.drawCircle(x, y, 10, TFT_BLACK);
 
-  tft.drawRect(attack_x - attack_width/2, -1, attack_width, attack_y - attack_height, TFT_BLACK);
-  tft.drawRect(attack_x - attack_width/2, attack_y + attack_height, attack_width, height, TFT_BLACK);
+  spr.drawRect(attack_x - attack_width/2, -1, attack_width, attack_y - attack_height, TFT_BLACK);
+  spr.drawRect(attack_x - attack_width/2, attack_y + attack_height, attack_width, height, TFT_BLACK);
 
   // ext force
   if(flytime > 0){
@@ -158,4 +159,6 @@ void loop() {
     default:
       break;
   }
+
+  spr.pushSprite(0, 0);
 }
